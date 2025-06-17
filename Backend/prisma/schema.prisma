@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -29,6 +28,6 @@ model Kudos_Card{
   author String? @default("Anonymous")
   boardId Int
   board Kudos_Board @relation(fields: [boardId], references: [id])
-  kudos_count Int @default(0)
+  Kudos_count Int @default(0)
 
 }
