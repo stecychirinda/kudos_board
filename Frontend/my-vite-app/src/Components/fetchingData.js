@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000/Kudos_board"
+const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board"
 
 // GET all boards
 export async function getAllBoards() {
@@ -82,7 +82,7 @@ export async function getCard() {
 // Create a card
 export async function createCard(cardData) {
     try{
-        const response = await fetch(`${baseUrl}/:boardId/cards`, {
+        const response = await fetch(`${baseUrl}/${cardData.boardId}/cards`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
