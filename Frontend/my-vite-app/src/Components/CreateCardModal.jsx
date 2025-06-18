@@ -20,6 +20,9 @@ const CreateCardModal = ({onClose}) => {
                 <input type="text" name="gifs" placeholder="Search for gifs" />
                 <button type="submit">Search</button>
             </div>
+            <div>
+              <input type='text' name='gif' placeholder='Gif URL' />
+            </div>
             <div className="form-group">
             <label> Author: </label>
             <input type="text" name="author" placeholder="Author (optional)" />

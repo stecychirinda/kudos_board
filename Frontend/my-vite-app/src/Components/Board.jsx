@@ -3,7 +3,7 @@ import './Board.css'
 import { getAllBoards,deleteBoard } from './fetchingData';
 import { Link } from 'react-router-dom';
 
-function Board() {
+function Board({currentCategory}) {
 const [boards, setBoards] = useState([]);
   useEffect(() => {
     const fetchBoards = async () => {
@@ -14,16 +14,25 @@ const [boards, setBoards] = useState([]);
   }, []);
 
   const handleDelete =async (id) => {
-    console.log("deleting: ",id)
     await deleteBoard(id);
     const updatedBoards = await getAllBoards();
     setBoards(updatedBoards);
   };
 
+  let filteredBoards = [];
+  if (currentCategory === 'All') {
+    filteredBoards = boards;
+  }else if(currentCategory === "Recent"){
+    filteredBoards = boards.slice(-6);
+  } else {
+    filteredBoards= boards.filter(
+      (board) => board.category === currentCategory
+    )
+  }
 
   return (
-    <>
-    {boards.map(board => (
+    <div className="boards_display">
+    {filteredBoards.map(board => (
       <div key={board.id} className="Board">
       <img src='https://picsum.photos/200' alt='random'/>
       <div className="Board__text">
@@ -36,7 +45,7 @@ const [boards, setBoards] = useState([]);
       </div>
   </div>
     ))}
-</>
+</div>
 )
 }
 

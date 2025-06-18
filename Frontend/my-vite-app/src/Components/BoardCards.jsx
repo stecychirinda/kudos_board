@@ -8,7 +8,7 @@ function BoardCards() {
             <h2>Board Cards</h2>
             <p>Some text</p>
             <button>UpVote</button>
-            <button>Delete Board</button>
+            <button>Delete Card</button>
         </div>
     </div>
   )
