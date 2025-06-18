@@ -1,4 +1,5 @@
-const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board"
+// const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board" // render server (turn it on when I need to make code live)
+const baseUrl = "http://localhost:8000/Kudos_board"
 
 // GET all boards
 export async function getAllBoards() {
@@ -51,9 +52,9 @@ export async function deleteBoard(id) {
 }
 
 // Get cards for a specific board
-export async function getCardsForBoard() {
+export async function getCardsForBoard(boardId) {
     try{
-        const response = await fetch(`${baseUrl}/:boardId/cards`);
+        const response = await fetch(`${baseUrl}/${boardId}/cards`);
         if (!response.ok) {
             throw new Error (`Response status: ${response.status}`);
         }
@@ -80,9 +81,9 @@ export async function getCard() {
 }
 
 // Create a card
-export async function createCard(cardData) {
+export async function createCard(boardId,cardData) {
     try{
-        const response = await fetch(`${baseUrl}/${cardData.boardId}/cards`, {
+        const response = await fetch(`${baseUrl}/${boardId}/cards`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

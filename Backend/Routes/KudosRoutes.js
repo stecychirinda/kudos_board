@@ -61,28 +61,28 @@ router.delete('/:id',async(req,res)=>{
 })
 
 router.get('/:boardId/cards', async (req,res) => {
-    const {boardId} = req.params;
     try{
+    const {boardId} = req.params;
     const cards = await prisma.Kudos_Card.findMany({
         where: {boardId: parseInt(boardId)},
     });
-    res.json(cards);
+    res.status(200).json(cards);
     }catch(error){
         res.status(500).json({message: 'Failed to fetch cards'});
     }
 });
 
-router.get('/:boardId/cards/:id', async (req,res) => {
-    const {id} = req.params;
-    try{
-    const card = await prisma.Kudos_Card.findUnique({
-        where: {id: parseInt(id)},
-    });
-    res.json(card);
-    }catch(error){
-        res.status(500).json({message: 'Failed to fetch card'});
-    }
-    });
+// router.get('/:boardId/cards/:id', async (req,res) => {
+//     const {id} = req.params;
+//     try{
+//     const card = await prisma.Kudos_Card.findUnique({
+//         where: {id: parseInt(id)},
+//     });
+//     res.json(card);
+//     }catch(error){
+//         res.status(500).json({message: 'Failed to fetch card'});
+//     }
+//     });
 
 router.post('/:boardId/cards', async (req, res) => {
     const {title,description,gifUrl,author='Anonymous',Kudos_count=0}=req.body;
@@ -101,7 +101,7 @@ router.post('/:boardId/cards', async (req, res) => {
             author,
             Kudos_count,
             gif_url: finalGifUrl,
-            board: {connect: {id: parseInt(req.params.boardId)}}
+            board: {connect: {id: parseInt(boardId)}}
         }
     });
     res.status(201).json(newCard);

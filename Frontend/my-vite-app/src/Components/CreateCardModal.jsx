@@ -9,21 +9,22 @@ const CreateCardModal = ({onClose,boardId}) => {
   const [author, setAuthor] = useState("");
   const [gifUrl, setGifUrl] = useState("");
 
-  const handleSubmit = async() => {
-    await createCard({
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const cardData = {
       title,
       description,
-      author,
-      gif_url:gifUrl,
-      boardId
-  });
+      author: author || "Anonymous",
+      gifUrl,
+  };
+  await createCard(boardId,cardData);
   onClose();
 }
 
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <h1>Create a Card</h1>
             <div className="form-group">

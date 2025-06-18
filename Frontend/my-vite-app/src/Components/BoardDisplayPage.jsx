@@ -25,9 +25,9 @@ const BoardDisplayPage = () => {
       <Header />
       <div className="create-board">
         <button onClick={openModal}>Create New Card</button>
-        {isModalOpen && (<CreateCardModal onClose={closeModal} />)}
+        {isModalOpen && (<CreateCardModal onClose={closeModal} boardId={id}/>)}
       </div>
-      <BoardCards cards={cards} />
+      <BoardCards boardId={id} cards={cards}/>
       <Footer />
     </div>
   );
