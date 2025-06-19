@@ -44,10 +44,11 @@ export async function deleteBoard(id) {
         if (!response.ok) {
             throw new Error (`Response status: ${response.status}`);
         }
-        const data = await response.json();
-        return data;
+        // const data = await response.json();
+        return true;
     } catch (error) {
         console.error('Failed to delete board',error.message);
+        return false;
     }
 }
 
@@ -114,9 +115,9 @@ export async function upvoteCards(id){
 }
 
 // Delete a card
-export async function deleteCard() {
+export async function deleteCard(boardId, cardId) {
     try{
-        const response = await fetch(`${baseUrl}/:boardId/cards/:id`, {
+        const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}`, {
             method: "DELETE",
         });
         if (!response.ok) {
@@ -126,5 +127,6 @@ export async function deleteCard() {
         return data;
     } catch (error) {
         console.error('Failed to delete card',error.message);
+return null;
     }
 }

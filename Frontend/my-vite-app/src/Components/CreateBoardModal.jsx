@@ -1,16 +1,11 @@
 import "./CreateBoardModal.css";
-import { createBoard } from "./fetchingData";
+import { createBoard} from "./fetchingData";
 import { useState } from "react";
 
 const CreateBoardModal = ({onClose}) => {
-
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const boardData={
       title,
       category,
@@ -18,8 +13,6 @@ const CreateBoardModal = ({onClose}) => {
     await createBoard(boardData);
     onClose();
   };
-
-
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>

@@ -9,8 +9,7 @@ const CreateCardModal = ({onClose,boardId}) => {
   const [author, setAuthor] = useState("");
   const [gifUrl, setGifUrl] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const cardData = {
       title,
       description,
@@ -20,11 +19,10 @@ const CreateCardModal = ({onClose,boardId}) => {
   await createCard(boardId,cardData);
   onClose();
 }
-
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <h1>Create a Card</h1>
             <div className="form-group">
@@ -42,8 +40,9 @@ const CreateCardModal = ({onClose,boardId}) => {
             <SearchGIPH onGifSelect={setGifUrl} />
             {gifUrl && <img src={gifUrl} alt="Selected Gif" style={{maxWidth: "200px"}} />}
             </div>
+            <button type="submit" className="create-board" >Create Card</button>
         </form>
-        <button type="submit" className="create-board" onClick={handleSubmit}>Create Card</button>
+
         <button className="close" onClick={onClose}>
           Close
         </button>
