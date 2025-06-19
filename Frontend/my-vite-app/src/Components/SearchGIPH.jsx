@@ -7,7 +7,7 @@
 
     const handleSearch = async (e) => {
         e.preventDefault()
-        const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=8`)
+        const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=10`)
         const data = await res.json()
         setResults(data.data)
     };

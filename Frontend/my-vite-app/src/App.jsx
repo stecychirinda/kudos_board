@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import './App.css'
 import HomePage from './Components/HomePage'
 import BoardDisplayPage from './Components/BoardDisplayPage'
@@ -13,13 +12,14 @@ const App = () => {
 
   return (
     <div className={`app-container ${theme}-mode`}>
+      <button className="toggle_button" onClick={toggleTheme}>
+          Toggle to {theme === 'light' ? 'Dark' : 'Light'} Mode
+        </button>
         <Routes>
           <Route path="/" element={<HomePage />}/>
           <Route path="/:id" element={<BoardDisplayPage />}/>
         </Routes>
-        <button onClick={toggleTheme}>
-          Toggle to {theme === 'light' ? 'Dark' : 'Light'} Mode
-        </button>
+
     </div>
   )
 }

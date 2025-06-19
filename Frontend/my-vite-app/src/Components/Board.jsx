@@ -2,13 +2,17 @@ import { useState,useEffect } from 'react';
 import './Board.css'
 import { getAllBoards,deleteBoard } from './fetchingData';
 import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 function Board({currentCategory}) {
 const [boards, setBoards] = useState([]);
+const [searchBoards, setSearchBoards] = useState([]);
+
   useEffect(() => {
     const fetchBoards = async () => {
       const boardsData = await getAllBoards();
       setBoards(boardsData);
+      setSearchBoards(boardsData);
     };
     fetchBoards();
   }, []);
@@ -17,21 +21,39 @@ const [boards, setBoards] = useState([]);
     await deleteBoard(id);
     const updatedBoards = await getAllBoards();
     setBoards(updatedBoards);
+    setSearchBoards(updatedBoards);
+  };
+
+  const handleSearch = (searchTerm) => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const results = boards.filter(board =>
+      board.title.toLowerCase().includes(lowerSearchTerm)
+    );
+    setSearchBoards(results);
+  };
+
+  const handleClear=() => {
+    setSearchBoards(boards);
   };
 
   let filteredBoards = [];
   if (currentCategory === 'All') {
-    filteredBoards = boards;
+    filteredBoards = searchBoards;
   }else if(currentCategory === "Recent"){
-    filteredBoards = boards.slice(-6);
+    filteredBoards = searchBoards.slice(-6);
   } else {
-    filteredBoards= boards.filter(
+    filteredBoards= searchBoards.filter(
       (board) => board.category === currentCategory
     )
   }
 
   return (
     <div className="boards_display">
+    <div className="search_bar">
+    <SearchBar onSearch={handleSearch} onClear={handleClear} />
+    </div>
+    <div className="board_cards_container" >
+      {""}
     {filteredBoards.map(board => (
       <div key={board.id} className="Board">
       <img src='https://picsum.photos/200' alt='random'/>
@@ -45,6 +67,7 @@ const [boards, setBoards] = useState([]);
       </div>
   </div>
     ))}
+    </div>
 </div>
 )
 }

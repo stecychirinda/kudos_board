@@ -1,7 +1,16 @@
 .boards_display {
   display: flex;
+  flex-direction: column;
+  padding: 1 rem;
+}
+
+.search_bar{
+    margin-bottom: 1rem;
+}
+
+.board_cards_container {
+  display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 1rem;
+  justify-content: flex-start;
 }

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "./SearchBar.css";
 
-function SearchBar({ onMovieTitle, onClear }) {
+function SearchBar({ onSearch, onClear }) {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
-      onMovieTitle(input.trim());
+      onSearch(input.trim());
     }
   };
 

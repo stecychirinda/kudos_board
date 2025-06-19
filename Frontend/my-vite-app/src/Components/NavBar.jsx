@@ -1,5 +1,4 @@
 import './NavBar.css'
-import SearchBar from './SearchBar'
 import {useState} from 'react'
 import CreateBoardModal from './CreateBoardModal'
 
@@ -14,7 +13,6 @@ const NavBar = ({currentCategory,setCurrentCategory}) => {
 
   return (
     <div className="nav-bar">
-      <SearchBar />
       <div className="buttons">
       {["All", "Recent", "Celebration", "Thank_You", "Inspiration"].map((category) => (
         <button

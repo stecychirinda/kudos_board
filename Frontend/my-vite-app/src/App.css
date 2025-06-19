@@ -1,6 +1,7 @@
 .app-container {
   background-color: white;
   color:black;
+  margin:0px;
 }
 .dark-mode {
   background-color: black;
