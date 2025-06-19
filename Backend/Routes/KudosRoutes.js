@@ -4,21 +4,6 @@ const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 const fetch = require('node-fetch');
 
-async function fetchRandomGif(){
-    const apiKey = process.env.GIPHY_API_KEY;
-    try{
-    const res = await fetch (`https://api.giphy.com/v1/gifs/random?api_key=${apiKey}`)
-    const data = await res.json();
-    if(data && data.data && data.data.images && data.data.images.original){
-        return data.data.images.original.url;
-    }else{
-        return 'https://media.giphy.com/media/Ju715y9osyymQ/giphy.gif'
-    }
-    }catch(err){
-        return 'https://media.giphy.com/media/Ju715y9osyymQ/giphy.gif'
-    }
-}
-
 router.get('/', async (req, res) => {
     const kudo_board = await prisma.Kudos_Board.findMany();
     res.json(kudo_board);
@@ -30,16 +15,12 @@ router.post('/', async (req, res) => {
     if (!req.body.title || !allowedCategories.includes(req.body.category)){
         return res.status(400).json({message: 'Title and Category are required'});
     }
-    const {title,category, gifUrl} =req.body;
-    let finalGifUrl = gifUrl;
-    if (!finalGifUrl){
-        finalGifUrl = await fetchRandomGif();
-    }
+    const {title,category, gif_url} =req.body;
     const newBoard = await prisma.Kudos_Board.create({
         data: {
             title,
             category,
-            gif_url: finalGifUrl
+            gif_url,
         }
     });
     res.status(201).json(newBoard);
@@ -85,14 +66,10 @@ router.get('/:boardId/cards', async (req,res) => {
 //     });
 
 router.post('/:boardId/cards', async (req, res) => {
-    const {title,description,gifUrl,author='Anonymous',Kudos_count=0}=req.body;
+    const {title,description, gif_url, author='Anonymous',Kudos_count=0} = req.body;
     const {boardId} = req.params;
     if (!title || !description ){
         return res.status(400).json({message: 'Title and Description are required'});
-    }
-    let finalGifUrl = gifUrl;
-    if (!gifUrl){
-        finalGifUrl = await fetchRandomGif();
     }
     const newCard = await prisma.Kudos_Card.create({
         data: {
@@ -100,7 +77,7 @@ router.post('/:boardId/cards', async (req, res) => {
             description,
             author,
             Kudos_count,
-            gif_url: finalGifUrl,
+            gif_url,
             board: {connect: {id: parseInt(boardId)}}
         }
     });

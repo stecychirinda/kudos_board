@@ -1,0 +1,10 @@
+.BoardCardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: green;
+    width: 100px;
+
+  }

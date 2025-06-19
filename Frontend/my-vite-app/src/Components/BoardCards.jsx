@@ -13,11 +13,15 @@ function BoardCards({boardId, cards:initialCards}) {
     await deleteCard(boardId,cardId);
     setCards(cards.filter((card)=>card.id!==cardId));
   }
+  console.log(cards);
   return (
     <div className="BoardCards">
-        {cards.map((card)=>(
-            <div className="BoardCard" key={card.id}>
-                <img src={card.gif_url || "https://media.giphy.com/media/3o7aCSPmaTB1YVZ7R2/giphy.gif"} alt="GIF" />
+        {cards.map((card)=>{
+            return(
+           <div classname= "BoardCardContainer">
+            <div classname= "">
+              <div className="BoardCard" key={card.id}>
+                <img src={card.gif_url ? card.gif_url : "https://media.giphy.com/media/3o7aCSPmaTB1YVZ7R2/giphy.gif"} alt="GIF" />
                 <div className="BoardCardText">
                     <h3>{card.title}</h3>
                     <p>{card.description}</p>
@@ -25,8 +29,10 @@ function BoardCards({boardId, cards:initialCards}) {
                     <button>UpVote</button>
                     <button onClick ={()=>handleDelete(card.id)}>Delete Card</button>
                 </div>
-        </div>
-        ))}
+              </div>
+            </div>
+            </div>)
+        })}
     </div>
   )
 }

@@ -5,7 +5,8 @@
     const[searchTerm, setSearchTerm] = useState('');
     const[results, setResults] = useState([]);
 
-    const handleSearch = async () => {
+    const handleSearch = async (e) => {
+        e.preventDefault()
         const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=8`)
         const data = await res.json()
         setResults(data.data)
@@ -17,12 +18,12 @@
             placeholder="Search for a GIF"
             onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button onClick={handleSearch}>Search</button>
+            <button onClick={(e) => handleSearch(e)}>Search</button>
             <div style={{display: "flex", flexWrap: "wrap",gap:"10px",marginTop: "10px"}}>
                 {results.map((result) => (
                     <img
                     key={result.id}
-                    src={result.images.fixed_height_small.url}
+                    src={result.images.original.url}
                     alt="gif"
                     onClick={()=>
                         onGifSelect(result.images.original.url)}
