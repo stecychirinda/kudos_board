@@ -1,6 +1,6 @@
 import './BoardCards.css'
 import { useEffect,useState } from 'react';
-import { deleteCard} from './fetchingData';
+import { deleteCard, upvoteCards} from './fetchingData';
 
 function BoardCards({boardId, cards:initialCards}) {
   const [cards, setCards] = useState(initialCards);
@@ -13,7 +13,16 @@ function BoardCards({boardId, cards:initialCards}) {
     await deleteCard(boardId,cardId);
     setCards(cards.filter((card)=>card.id!==cardId));
   }
-  console.log(cards);
+  const handleUpvote = async (cardId)=>{
+    const updated = await upvoteCards(cardId);
+    if (updated){
+      setCards(prev => prev.map(card =>
+        card.id === cardId ? {...card, Kudos_count: updated.Kudos_count} : card
+      )
+      );
+    }
+  }
+
   return (
     <div className="BoardCards">
         {cards.map((card)=>{
@@ -26,7 +35,7 @@ function BoardCards({boardId, cards:initialCards}) {
                     <h3>{card.title}</h3>
                     <p>{card.description}</p>
                     <p>{card.author}</p>
-                    <button>UpVote</button>
+                    <button onClick={()=>handleUpvote(card.id)}>UpVote: {card.Kudos_count}</button>
                     <button onClick ={()=>handleDelete(card.id)}>Delete Card</button>
                 </div>
               </div>

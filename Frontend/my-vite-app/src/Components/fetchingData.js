@@ -100,6 +100,19 @@ export async function createCard(boardId,cardData) {
     }
 }
 
+// Upvote a card
+export async function upvoteCards(id){
+    try{
+        const response = await fetch(`${baseUrl}/cards/${id}/upvote`,{method: "PATCH"});
+        if (!response.ok)
+            throw new Error (`Response status: ${response.status}`);
+            return await response.json();
+    } catch (error) {
+        console.error('Failed to upvote card',error.message);
+        return null
+    }
+}
+
 // Delete a card
 export async function deleteCard() {
     try{

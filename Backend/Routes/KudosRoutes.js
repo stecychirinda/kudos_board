@@ -3,6 +3,7 @@ const router = express.Router();
 const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 const fetch = require('node-fetch');
+const { parse } = require('dotenv');
 
 router.get('/', async (req, res) => {
     const kudo_board = await prisma.Kudos_Board.findMany();
@@ -84,6 +85,20 @@ router.post('/:boardId/cards', async (req, res) => {
     res.status(201).json(newCard);
 
 });
+
+router.patch('/cards/:id/upvote', async (req, res) => {
+    const id = parseInt(req.params.id);
+    try{
+        const updated = await prisma.Kudos_Card.update({
+            where: {id},
+            data: {Kudos_count : {increment: 1}}
+        });
+        res.status(200).json(updated);
+    }catch(error){
+        res.status(500).json({message: 'Failed to update card'});
+    }
+    });
+
 
 router.delete('/:boardId/cards/:id',async(req,res)=>{
     const{id} = req.params;
