@@ -113,6 +113,18 @@ export async function upvoteCards(id){
         return null
     }
 }
+//  Pin a card
+export async function togglePinStatus(cardId){
+    try{
+        const response = await fetch(`${baseUrl}/cards/${cardId}/isPinned`,{method: 'PUT'});
+        if (!response.ok)
+            throw new Error (`Response status: ${response.status}`);
+            return await response.json();
+    } catch (error) {
+        console.error('Failed to pin card',error.message);
+        return null
+    }
+}
 
 // Delete a card
 export async function deleteCard(boardId, cardId) {

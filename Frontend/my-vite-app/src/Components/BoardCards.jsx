@@ -1,12 +1,15 @@
 import './BoardCards.css'
 import { useEffect,useState } from 'react';
-import { deleteCard, getCardsForBoard, upvoteCards} from './fetchingData';
+import { deleteCard, getCardsForBoard, upvoteCards,togglePinStatus} from './fetchingData';
 
 function BoardCards({boardId, cards:initialCards}) {
   const [cards, setCards] = useState(initialCards);
-
   useEffect(() => {
-    setCards(initialCards);
+    const cardsIndex =initialCards.map((card,index)=>({
+      ...card,
+      originalIndex:index,
+    }));
+    setCards(cardsIndex)
     },[initialCards]);
 
      const handleDelete =async (cardId) => {
@@ -25,6 +28,21 @@ function BoardCards({boardId, cards:initialCards}) {
       );
     }
   }
+  const togglePin = async (e, cardId) => {
+    e.preventDefault();
+    const updated = await togglePinStatus(cardId);
+    if (updated) {
+      setCards(prev => prev.map(card =>
+        card.id === cardId ? {...card, isPinned: updated.isPinned} : card
+      ));
+    }
+  }
+    cards.sort((a, b) => {
+      if (a.isPinned === b.isPinned){
+        return a.originalIndex - b.originalIndex;
+    }
+      return b.isPinned - a.isPinned;
+    });
 
   return (
     <div className="BoardCards">
@@ -40,6 +58,9 @@ function BoardCards({boardId, cards:initialCards}) {
                     <p>{card.author}</p>
                     <button onClick={()=>handleUpvote(card.id)}>UpVote: {card.Kudos_count}</button>
                     <button onClick ={()=>handleDelete(card.id)}>Delete Card</button>
+                       <button onClick={(e) => togglePin(e, card.id)}>
+                            {card.isPinned ? 'Unpin' : 'Pin'}
+                         </button>
                     <button>Comment</button>
                 </div>
               </div>
