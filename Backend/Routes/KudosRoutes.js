@@ -16,7 +16,8 @@ router.post('/', async (req, res) => {
     if (!req.body.title || !allowedCategories.includes(req.body.category)){
         return res.status(400).json({message: 'Title and Category are required'});
     }
-    const {title,category, gif_url} =req.body;
+    try{
+        const {title,category, gif_url} =req.body;
     const newBoard = await prisma.Kudos_Board.create({
         data: {
             title,
@@ -25,7 +26,15 @@ router.post('/', async (req, res) => {
         }
     });
     res.status(201).json(newBoard);
+
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({message: 'Failed to create board'});
+    }
 });
+
+
 
 router.delete('/:id',async(req,res)=>{
     const{id} = req.params;
@@ -72,17 +81,22 @@ router.post('/:boardId/cards', async (req, res) => {
     if (!title || !description ){
         return res.status(400).json({message: 'Title and Description are required'});
     }
-    const newCard = await prisma.Kudos_Card.create({
-        data: {
-            title,
-            description,
-            author,
-            Kudos_count,
-            gif_url,
-            board: {connect: {id: parseInt(boardId)}}
-        }
-    });
-    res.status(201).json(newCard);
+    try{
+
+        const newCard = await prisma.Kudos_Card.create({
+            data: {
+                title,
+                description,
+                author,
+                Kudos_count,
+                gif_url,
+                board: {connect: {id: parseInt(boardId)}}
+            }
+        });
+        res.status(201).json(newCard);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({message: 'Failed to create card'});}
 
 });
 
@@ -98,6 +112,24 @@ router.patch('/cards/:id/upvote', async (req, res) => {
         res.status(500).json({message: 'Failed to update card'});
     }
     });
+
+router.put('/cards/:id/isPinned', async (req, res) => {
+    try{
+        const id = parseInt(req.params.id);
+        const cardExists = await prisma.Kudos_Card.findUnique({
+            where: {id},});
+        if (!cardExists){
+            return res.status(404).json({message: 'Card not found'});
+        }
+        const updated = await prisma.Kudos_Card.update({
+            where: {id},
+            data: {isPinned: !cardExists.isPinned}
+        });
+        res.status(200).json(updated);}
+    catch(error){
+        res.status(500).json({message: 'Failed to update card'});
+    }
+    })
 
 
 router.delete('/:boardId/cards/:id',async(req,res)=>{

@@ -14,7 +14,7 @@ datasource db {
 }
 model Kudos_Board{
   id Int @id @default(autoincrement())
-  gif_url String
+  gif_url String?
   title String
   category String
   cards Kudos_Card []
@@ -29,5 +29,5 @@ model Kudos_Card{
   boardId Int
   board Kudos_Board @relation(fields: [boardId], references: [id])
   Kudos_count Int @default(0)
-
+  isPinned Boolean @default(false)
 }
