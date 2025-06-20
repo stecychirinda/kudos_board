@@ -2,13 +2,14 @@ import './BoardCards.css'
 import { useEffect,useState } from 'react';
 import { deleteCard, getCardsForBoard, upvoteCards,togglePinStatus} from './fetchingData';
 import CommentsModal from './CommentsModal';
-import DisplayCommentsModal from './DisplayCommentsModal';
-
+import {ImBin} from 'react-icons/im';
+import { FaComments } from "react-icons/fa";
+import { BiSolidUpvote } from "react-icons/bi";
 
 function BoardCards({boardId, cards:initialCards}) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const [selectedCardId, setSelectedCardId] = useState(null);
+  const openModal = (cardId) => setSelectedCardId(cardId);
+  const closeModal = () => setSelectedCardId(null);
   const [cards, setCards] = useState(initialCards);
 
 
@@ -53,6 +54,7 @@ function BoardCards({boardId, cards:initialCards}) {
 
   return (
     <div className="BoardCards">
+      <div className="card-grid-container">
         {cards.map((card)=>{
             return(
            <div className= "BoardCardContainer" >
@@ -62,19 +64,29 @@ function BoardCards({boardId, cards:initialCards}) {
                     <h3>{card.title}</h3>
                     <p>{card.description}</p>
                     <p>{card.author}</p>
-                    <button onClick={() =>handleUpvote(card.id)}>UpVote: {card.Kudos_count}</button>
-                    <button onClick ={()=>handleDelete(card.id)}>Delete Card</button>
+                    <div className="button-row">
+                    <button onClick={() =>handleUpvote(card.id)}><BiSolidUpvote /> {card.Kudos_count}</button>
+                    <button onClick ={()=>handleDelete(card.id)}><ImBin /></button>
                        <button onClick={() => togglePin( card.id)}>
                             {card.isPinned ? 'Unpin' : 'Pin'}
                          </button>
-                         <div className="create-board">
-                        <button onClick={openModal}>Comments</button>
-                        {isModalOpen && (<CommentsModal onClose={closeModal} cardId={card.id}  boardId={boardId.id} card={card}/>)}
+                    </div>
+                    <div>
+                   <button onClick={() => openModal(card.id)}><FaComments /></button>
                     </div>
                 </div>
             </div>
             </div>)
         })}
+        </div>
+        {selectedCardId && (
+          <CommentsModal
+            onClose={closeModal}
+            cardId={selectedCardId}
+            boardId={boardId.id}
+            card={cards.find(card => card.id === selectedCardId)}
+          />
+        )}
     </div>
   )
 }

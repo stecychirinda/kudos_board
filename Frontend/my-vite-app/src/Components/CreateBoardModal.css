@@ -13,7 +13,7 @@
     justify-content: center;
   }
   .modal-content {
-    
+
     max-height: 84vh;
     display: flex;
     flex-direction: column;
@@ -28,9 +28,15 @@
     box-shadow: 5px 5px 5px rgba(166, 157, 157, 0.931);
   }
 
-  .close {
+  /* .close {
     width: 100px;
     box-shadow: 1px 1px 1px rgba(166, 157, 157, 0.931);
     margin-left: 230px;
     margin-top: 10px;
+  } */
+
+  .close {
+    width: 100px;
+    box-shadow: 1px 1px 1px rgba(166, 157, 157, 0.931);
+    margin: 10px auto 0; /* Center the button horizontally */
   }

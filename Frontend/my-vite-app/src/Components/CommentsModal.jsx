@@ -25,19 +25,21 @@ const CommentsModal = ({ onClose,cardId,boardId,card}) => {
 
 
   return (
-    <div className="modal" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-comments" onClick={onClose}>
+      <div className="modal-content-comments" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSubmit}>
-        <h1>Comments for {card.title}</h1>
+         <div className="meta-card">
+        <h3>Comments for {card.title}</h3>
         <p>{card.author}</p>
         <p>{card.description}</p>
-        <img src={card.gif_url} alt="GIF" />
+        <img src={card.gif_url} alt="GIF" className="comments-img"/>
+        </div>
         <h2>Comments</h2>
-        <ul>
+        <ul className="display-comments">
           {comments.map((comment, index) => (
             <li key={index}>
-              <p>{comment.message}</p>
-              <p>{comment.author}</p>
+              <p>Comment: {comment.message}</p>
+              <p><em>By: {comment.author}</em></p>
             </li>
           ))}
         </ul>

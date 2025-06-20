@@ -53,17 +53,18 @@ const [searchBoards, setSearchBoards] = useState([]);
     <SearchBar onSearch={handleSearch} onClear={handleClear} />
     </div>
     <div className="board_cards_container">
-      {""}
     {filteredBoards.map(board => (
-      <div key={board.id} >
+      <div className="board-card" key={board.id} >
       <img src='https://picsum.photos/200' alt='random'/>
       <div className="Board__text">
           <h2>{board.title}</h2>
           <p>{board.category}</p>
+          < div className="button-row">
           <Link to = {`/${board.id}`}>
           <button>View Board</button>
           </Link>
           <button onClick={()=>handleDelete(board.id)}>Delete Board</button>
+      </div>
       </div>
     </div>
     ))}

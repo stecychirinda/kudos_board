@@ -63,17 +63,17 @@ router.get('/:boardId/cards', async (req,res) => {
     }
 });
 
-// router.get('/:boardId/cards/:id', async (req,res) => {
-//     const {id} = req.params;
-//     try{
-//     const card = await prisma.Kudos_Card.findUnique({
-//         where: {id: parseInt(id)},
-//     });
-//     res.json(card);
-//     }catch(error){
-//         res.status(500).json({message: 'Failed to fetch card'});
-//     }
-//     });
+router.get('/:boardId/cards/:id', async (req,res) => {
+    const {id} = req.params;
+    try{
+    const card = await prisma.Kudos_Card.findUnique({
+        where: {id: parseInt(id)},
+    });
+    res.json(card);
+    }catch(error){
+        res.status(500).json({message: 'Failed to fetch card'});
+    }
+    });
 
 router.post('/:boardId/cards', async (req, res) => {
     const {title,description, gif_url, author='Anonymous',Kudos_count=0} = req.body;
@@ -132,16 +132,53 @@ router.put('/cards/:id/isPinned', async (req, res) => {
     })
 
 
-router.delete('/:boardId/cards/:id',async(req,res)=>{
-    const{id} = req.params;
+    router.delete('/:boardId/cards/:id', async (req, res) => {
+        const { id } = req.params;
+        try {
+            await prisma.Kudos_Comment.deleteMany({
+                where: { cardId: parseInt(id) }
+            });
+            const deletedCard = await prisma.Kudos_Card.delete({
+                where: { id: parseInt(id) }
+            });
+            res.status(200).json(deletedCard);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to delete card' });
+        }
+    });
+
+router.get('/:boardId/cards/:cardId/comments', async (req, res) => {
     try{
-    const deletedCard = await prisma.Kudos_Card.delete({
-        where : {id: parseInt(id)}
-    })
-    res.status(200).json(deletedCard);
+    const {cardId} = req.params;
+    const comments = await prisma.Kudos_Comment.findMany({
+        where: {cardId: parseInt(cardId)},
+    });
+    res.status(200).json(comments);
     }catch(error){
-        res.status(500).json({message: 'Failed to delete card'});
+        console.error(error);
+        res.status(500).json({message: 'Failed to fetch comments'});
     }
-    })
+})
+
+router.post('/:boardId/cards/:cardId/comments', async (req, res) => {
+    const {message, author='Anonymous'} = req.body;
+    const {cardId} = req.params;
+    if (!message ){
+        return res.status(400).json({message: 'Message is required'});
+    }
+    try{
+        const newComment = await prisma.Kudos_Comment.create({
+            data: {
+                message,
+                author,
+                card: {connect: {id: parseInt(cardId)}}
+            }
+        });
+        res.status(201).json(newComment);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({message: 'Failed to create comment'});}
+});
 
 module.exports = router;

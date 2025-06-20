@@ -18,7 +18,7 @@ const HomePage = () => {
       />
       </div>
       <Board currentCategory={currentCategory} />
-      <Footer />
+      <Footer className="footer" />
     </div>
   );
 };

@@ -30,4 +30,13 @@ model Kudos_Card{
   board Kudos_Board @relation(fields: [boardId], references: [id])
   Kudos_count Int @default(0)
   isPinned Boolean @default(false)
+  comments Kudos_Comment []
+}
+
+model Kudos_Comment{
+  id Int @id @default(autoincrement())
+  message String
+  author String? @default("Anonymous")
+  cardId Int
+  card Kudos_Card @relation(fields: [cardId], references: [id])
 }

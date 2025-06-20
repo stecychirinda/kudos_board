@@ -16,7 +16,7 @@ const CreateBoardModal = ({onClose}) => {
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={handleSubmit} >
+        <form className="style" onSubmit={handleSubmit} >
           <div className="form-group">
             <h1>Create a New Board</h1>
             <div className="form-group">
