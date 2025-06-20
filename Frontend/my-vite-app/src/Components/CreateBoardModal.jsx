@@ -10,7 +10,7 @@ const CreateBoardModal = ({onClose}) => {
     const boardData={
       title,
       category,
-      author,
+      author: author || "Anonymous",
     };
     await createBoard(boardData);
     onClose();
