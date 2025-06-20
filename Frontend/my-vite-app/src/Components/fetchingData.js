@@ -1,5 +1,5 @@
-// const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board" // render server (turn it on when I need to make code live)
-const baseUrl = "http://localhost:8000/Kudos_board"
+const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board" // render server (turn it on when I need to make code live)
+// const baseUrl = "http://localhost:8000/Kudos_board"
 
 // GET all boards
 export async function getAllBoards() {
