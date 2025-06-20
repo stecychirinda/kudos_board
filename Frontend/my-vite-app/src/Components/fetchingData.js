@@ -142,3 +142,38 @@ export async function deleteCard(boardId, cardId) {
 return null;
     }
 }
+
+// Get comments for a specific card
+export async function getCommentsForCard(boardId, cardId) {
+    try{
+        const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}/comments`);
+        if (!response.ok) {
+            throw new Error (`Response status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Failed to fetch comments',error.message);
+        return [];
+    }
+}
+
+// Create a comment
+export async function createComment(boardId, cardId, commentData) {
+    try{
+        const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}/comments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(commentData),
+        });
+        if (!response.ok) {
+            throw new Error (`Response status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Failed to create comment',error.message);
+    }
+}

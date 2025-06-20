@@ -1,9 +1,17 @@
 import './BoardCards.css'
 import { useEffect,useState } from 'react';
 import { deleteCard, getCardsForBoard, upvoteCards,togglePinStatus} from './fetchingData';
+import CommentsModal from './CommentsModal';
+import DisplayCommentsModal from './DisplayCommentsModal';
+
 
 function BoardCards({boardId, cards:initialCards}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const [cards, setCards] = useState(initialCards);
+
+
   useEffect(() => {
     const cardsIndex =initialCards.map((card,index)=>({
       ...card,
@@ -28,8 +36,7 @@ function BoardCards({boardId, cards:initialCards}) {
       );
     }
   }
-  const togglePin = async (e, cardId) => {
-    e.preventDefault();
+  const togglePin = async (cardId) => {
     const updated = await togglePinStatus(cardId);
     if (updated) {
       setCards(prev => prev.map(card =>
@@ -48,22 +55,23 @@ function BoardCards({boardId, cards:initialCards}) {
     <div className="BoardCards">
         {cards.map((card)=>{
             return(
-           <div className= "BoardCardContainer">
-            <div className= "board_card">
+           <div className= "BoardCardContainer" >
               <div className="BoardCard" key={card.id}>
                 <img src={card.gif_url ? card.gif_url : "https://media.giphy.com/media/3o7aCSPmaTB1YVZ7R2/giphy.gif"} alt="GIF" />
                 <div className="BoardCardText">
                     <h3>{card.title}</h3>
                     <p>{card.description}</p>
                     <p>{card.author}</p>
-                    <button onClick={()=>handleUpvote(card.id)}>UpVote: {card.Kudos_count}</button>
+                    <button onClick={() =>handleUpvote(card.id)}>UpVote: {card.Kudos_count}</button>
                     <button onClick ={()=>handleDelete(card.id)}>Delete Card</button>
-                       <button onClick={(e) => togglePin(e, card.id)}>
+                       <button onClick={() => togglePin( card.id)}>
                             {card.isPinned ? 'Unpin' : 'Pin'}
                          </button>
-                    <button>Comment</button>
+                         <div className="create-board">
+                        <button onClick={openModal}>Comments</button>
+                        {isModalOpen && (<CommentsModal onClose={closeModal} cardId={card.id}  boardId={boardId.id} card={card}/>)}
+                    </div>
                 </div>
-              </div>
             </div>
             </div>)
         })}
