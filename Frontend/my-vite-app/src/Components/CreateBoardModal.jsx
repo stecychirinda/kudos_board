@@ -5,10 +5,12 @@ import { useState } from "react";
 const CreateBoardModal = ({onClose}) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [author, setAuthor] = useState("");
   const handleSubmit = async () => {
     const boardData={
       title,
       category,
+      author,
     };
     await createBoard(boardData);
     onClose();
@@ -22,6 +24,10 @@ const CreateBoardModal = ({onClose}) => {
             <div className="form-group">
             <label> Title: </label>
             <input type="text" name="title" placeholder="Title" value ={title} onChange={(e)=>setTitle(e.target.value)}/>
+            </div>
+            <div className="form-group">
+            <label> Author: </label>
+            <input type="text" name="author" placeholder="Author" value ={author} onChange={(e)=>setAuthor(e.target.value)}/>
             </div>
             <div className="form-group">
             <label> Category: </label>

@@ -3,7 +3,7 @@ import * as FaIcons from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <p>
         {" "}
         <FaIcons.FaCopyright /> Copyright 2025

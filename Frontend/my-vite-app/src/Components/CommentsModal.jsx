@@ -19,9 +19,8 @@ const CommentsModal = ({ onClose,cardId,boardId,card}) => {
           e.stopPropagation();
           const comments = await getCommentsForCard(boardId,cardId);
           setComments(comments);
-          console.log(comments);
         };
-        console.log(card)
+  
 
 
   return (

@@ -16,7 +16,7 @@ const App = () => {
           Toggle to {theme === 'light' ? 'Dark' : 'Light'} Mode
         </button>
         <Routes>
-          <Route path="/" element={<HomePage />}/>
+          <Route path="/" className="home" element={<HomePage />} />
           <Route path="/:id" element={<BoardDisplayPage />}/>
         </Routes>
     </div>
