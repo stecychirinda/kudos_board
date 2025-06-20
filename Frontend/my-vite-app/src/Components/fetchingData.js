@@ -1,7 +1,5 @@
-const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board" // render server (turn it on when I need to make code live)
-// const baseUrl = "http://localhost:8000/Kudos_board"
+const baseUrl = "https://kudos-board-api-b269.onrender.com/Kudos_board"
 
-// GET all boards
 export async function getAllBoards() {
     try{
         const response = await fetch (baseUrl);
@@ -14,7 +12,6 @@ export async function getAllBoards() {
 }
 }
 
-//Create a board
 export async function createBoard(data) {
     try{
     const response = await
@@ -35,7 +32,6 @@ export async function createBoard(data) {
 }
 }
 
-// Delete a board
 export async function deleteBoard(id) {
     try{
         const response = await fetch(`${baseUrl}/${id}`, {
@@ -44,7 +40,6 @@ export async function deleteBoard(id) {
         if (!response.ok) {
             throw new Error (`Response status: ${response.status}`);
         }
-        // const data = await response.json();
         return true;
     } catch (error) {
         console.error('Failed to delete board',error.message);
@@ -52,7 +47,6 @@ export async function deleteBoard(id) {
     }
 }
 
-// Get cards for a specific board
 export async function getCardsForBoard(boardId) {
     try{
         const response = await fetch(`${baseUrl}/${boardId}/cards`);
@@ -67,7 +61,6 @@ export async function getCardsForBoard(boardId) {
     }
 }
 
-//Get a specific card
 export async function getCard() {
     try{
         const response = await fetch(`${baseUrl}/:boardId/cards/:id`);
@@ -81,7 +74,7 @@ export async function getCard() {
     }
 }
 
-// Create a card
+
 export async function createCard(boardId,cardData) {
     try{
         const response = await fetch(`${baseUrl}/${boardId}/cards`, {
@@ -101,7 +94,6 @@ export async function createCard(boardId,cardData) {
     }
 }
 
-// Upvote a card
 export async function upvoteCards(id){
     try{
         const response = await fetch(`${baseUrl}/cards/${id}/upvote`,{method: "PATCH"});
@@ -113,7 +105,7 @@ export async function upvoteCards(id){
         return null
     }
 }
-//  Pin a card
+
 export async function togglePinStatus(cardId){
     try{
         const response = await fetch(`${baseUrl}/cards/${cardId}/isPinned`,{method: 'PUT'});
@@ -126,7 +118,7 @@ export async function togglePinStatus(cardId){
     }
 }
 
-// Delete a card
+
 export async function deleteCard(boardId, cardId) {
     try{
         const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}`, {
@@ -143,7 +135,7 @@ return null;
     }
 }
 
-// Get comments for a specific card
+
 export async function getCommentsForCard(boardId, cardId) {
     try{
         const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}/comments`);
@@ -158,7 +150,7 @@ export async function getCommentsForCard(boardId, cardId) {
     }
 }
 
-// Create a comment
+
 export async function createComment(boardId, cardId, commentData) {
     try{
         const response = await fetch(`${baseUrl}/${boardId}/cards/${cardId}/comments`, {

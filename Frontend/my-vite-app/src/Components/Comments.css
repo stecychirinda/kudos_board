@@ -37,9 +37,6 @@
     padding: 0;
     margin: 0;
     background-color: transparent;
-    /* display : flex;
-    flex-wrap: wrap;
-    flex-direction: column; */
  }
 li{
     background-color: #1e1e1e;
@@ -50,6 +47,4 @@ li{
     text-align: center;
 }
 
-/* .comments-img{
-    width:
-} */
+

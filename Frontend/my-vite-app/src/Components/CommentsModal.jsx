@@ -21,8 +21,6 @@ const CommentsModal = ({ onClose,cardId,boardId,card}) => {
           setComments(comments);
         };
   
-
-
   return (
     <div className="modal-comments" onClick={onClose}>
       <div className="modal-content-comments" onClick={(e) => e.stopPropagation()}>
