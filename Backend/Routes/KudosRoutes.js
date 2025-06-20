@@ -17,13 +17,14 @@ router.post('/', async (req, res) => {
         return res.status(400).json({message: 'Title and Category are required'});
     }
     try{
-        const {title,category, gif_url} =req.body;
+        const {title,category, author="Anonymous", gif_url} =req.body;
     const newBoard = await prisma.Kudos_Board.create({
         data: {
             title,
             category,
-            gif_url,
             author,
+            gif_url,
+
         }
     });
     res.status(201).json(newBoard);
