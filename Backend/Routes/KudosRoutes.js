@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
             title,
             category,
             gif_url,
+            author,
         }
     });
     res.status(201).json(newBoard);

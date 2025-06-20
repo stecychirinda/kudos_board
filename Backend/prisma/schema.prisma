@@ -17,6 +17,7 @@ model Kudos_Board{
   gif_url String?
   title String
   category String
+  author String? @default("Anonymous")
   cards Kudos_Card []
 }
 
