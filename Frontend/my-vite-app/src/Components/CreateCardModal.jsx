@@ -1,4 +1,3 @@
-import "./CreateCardModal.css";
 import SearchGIPH from "./SearchGIPH";
 import { useState } from "react";
 import {createCard} from "./fetchingData"

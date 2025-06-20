@@ -1,4 +1,3 @@
-import './NavBar.css'
 import {useState} from 'react'
 import CreateBoardModal from './CreateBoardModal'
 
