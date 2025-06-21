@@ -1,12 +1,12 @@
-import { useState,useEffect } from 'react';
-import './Board.css'
-import { getAllBoards,deleteBoard } from './fetchingData';
-import { Link } from 'react-router-dom';
-import SearchBar from './SearchBar';
+import { useState, useEffect } from "react";
+import "./Board.css";
+import { getAllBoards, deleteBoard } from "./fetchingData";
+import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
-function Board({currentCategory}) {
-const [boards, setBoards] = useState([]);
-const [searchBoards, setSearchBoards] = useState([]);
+function Board({ currentCategory }) {
+  const [boards, setBoards] = useState([]);
+  const [searchBoards, setSearchBoards] = useState([]);
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -17,7 +17,7 @@ const [searchBoards, setSearchBoards] = useState([]);
     fetchBoards();
   }, []);
 
-  const handleDelete =async (id) => {
+  const handleDelete = async (id) => {
     await deleteBoard(id);
     const updatedBoards = await getAllBoards();
     setBoards(updatedBoards);
@@ -26,50 +26,52 @@ const [searchBoards, setSearchBoards] = useState([]);
 
   const handleSearch = (searchTerm) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
-    const results = boards.filter(board =>
+    const results = boards.filter((board) =>
       board.title.toLowerCase().includes(lowerSearchTerm)
     );
     setSearchBoards(results);
   };
 
-  const handleClear=() => {
+  const handleClear = () => {
     setSearchBoards(boards);
   };
 
   let filteredBoards = [];
-  if (currentCategory === 'All') {
+  if (currentCategory === "All") {
     filteredBoards = searchBoards;
-  }else if(currentCategory === "Recent"){
+  } else if (currentCategory === "Recent") {
     filteredBoards = searchBoards.slice(-6);
   } else {
-    filteredBoards= searchBoards.filter(
+    filteredBoards = searchBoards.filter(
       (board) => board.category === currentCategory
-    )
+    );
   }
 
   return (
     <div className="boards_display">
-    <div className="search_bar">
-    <SearchBar onSearch={handleSearch} onClear={handleClear} />
-    </div>
-    <div className="board_cards_container">
-    {filteredBoards.map(board => (
-      <div className="board-card" key={board.id} >
-      <img src='https://picsum.photos/200' alt='random'/>
-      <div className="Board__text">
-          <h2>{board.title}</h2>
-          <p>{board.category}</p>
-          < div className="button-row">
-          <Link to = {`/${board.id}`}>
-          <button>View Board</button>
-          </Link>
-          <button onClick={()=>handleDelete(board.id)}>Delete Board</button>
+      <div className="search_bar">
+        <SearchBar onSearch={handleSearch} onClear={handleClear} />
       </div>
+      <div className="board_cards_container">
+        {filteredBoards.map((board) => (
+          <div className="board-card" key={board.id}>
+            <img src="https://picsum.photos/200" alt="random" />
+            <div className="Board__text">
+              <h2>{board.title}</h2>
+              <p>{board.category}</p>
+              <div className="button-row">
+                <Link to={`/${board.id}`}>
+                  <button>View Board</button>
+                </Link>
+                <button onClick={() => handleDelete(board.id)}>
+                  Delete Board
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-    ))}
-    </div>
-</div>
-)
+  );
 }
 export default Board;

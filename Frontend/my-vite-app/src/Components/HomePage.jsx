@@ -1,4 +1,4 @@
-import "./HomePage.css"
+import "./HomePage.css";
 import Header from "./Header";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
@@ -12,10 +12,10 @@ const HomePage = () => {
     <div className="home-page">
       <Header />
       <div>
-      <NavBar
-        currentCategory={currentCategory}
-        setCurrentCategory={setCurrentCategory}
-      />
+        <NavBar
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+        />
       </div>
       <Board currentCategory={currentCategory} />
       <Footer className="footer" />

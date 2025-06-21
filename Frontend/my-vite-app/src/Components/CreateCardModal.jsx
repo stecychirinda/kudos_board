@@ -1,8 +1,8 @@
 import SearchGIPH from "./SearchGIPH";
 import { useState } from "react";
-import {createCard} from "./fetchingData"
+import { createCard } from "./fetchingData";
 
-const CreateCardModal = ({onClose,boardId}) => {
+const CreateCardModal = ({ onClose, boardId }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
@@ -14,10 +14,10 @@ const CreateCardModal = ({onClose,boardId}) => {
       description,
       author: author || "Anonymous",
       gif_url: gifUrl,
+    };
+    await createCard(boardId, cardData);
+    onClose();
   };
-  await createCard(boardId,cardData);
-  onClose();
-}
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -25,21 +25,46 @@ const CreateCardModal = ({onClose,boardId}) => {
           <div className="form-group">
             <h1>Create a Card</h1>
             <div className="form-group">
-            <label> Title: </label>
-            <input type="text"  placeholder="Title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
+              <label> Title: </label>
+              <input
+                type="text"
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <div className="form-group">
-            <label> Description: </label>
-            <input type="text" name="description" placeholder="Description" value={description} onChange={(e)=>setDescription(e.target.value)} />
+              <label> Description: </label>
+              <input
+                type="text"
+                name="description"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </div>
             <div className="form-group">
-            <label> Author: </label>
-            <input type="text" name="author" placeholder="Author (optional)" value={author} onChange={(e)=>setAuthor(e.target.value)} />
+              <label> Author: </label>
+              <input
+                type="text"
+                name="author"
+                placeholder="Author (optional)"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
             </div>
             <SearchGIPH onGifSelect={setGifUrl} />
-            {gifUrl && <img src={gifUrl} alt="Selected Gif" style={{maxWidth: "200px"}} />}
-            </div>
-            <button type="submit" className="create-board" >Create Card</button>
+            {gifUrl && (
+              <img
+                src={gifUrl}
+                alt="Selected Gif"
+                style={{ maxWidth: "200px" }}
+              />
+            )}
+          </div>
+          <button type="submit" className="create-board">
+            Create Card
+          </button>
         </form>
 
         <button className="close" onClick={onClose}>
@@ -50,4 +75,4 @@ const CreateCardModal = ({onClose,boardId}) => {
   );
 };
 
-export default CreateCardModal
+export default CreateCardModal;
